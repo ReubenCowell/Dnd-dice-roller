@@ -5,7 +5,7 @@ def dice_roll(dice, sides, modifier):  # returns a list of rolled dice and the s
     rolled = []
     for _ in range(0, dice):
         rolled.append(randint(1, int(sides)))
-    return rolled, sum(rolled) + int(modifier)  # returns a list of the rolled dice and the total of them
+    return rolled, sum(rolled) + int(modifier) # returns a list of the rolled dice and the total of them
 
 
 def get_values(dice):
@@ -32,8 +32,12 @@ while True:
         dice = str(input(
             "Please input dice to be rolled \n In format ?d? +/- ?")).strip().lower()  # gets the dice that user
         # wants to roll
+        if dice == "stop":
+            print("Ending dice roller...")
+            break
         get_values(dice)
-        print(d_num, d_sides, m)
-        print(dice_roll(d_num, d_sides, m), "\n\n")
+        output = dice_roll(d_num, d_sides, m)
+        string = ', '.join([str(x) for x in output[0]])
+        print(str(output[1])+": "+string)
     except ValueError:
         print("Dice entered incorrectly")
