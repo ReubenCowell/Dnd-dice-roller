@@ -1,12 +1,32 @@
 from random import randint  # random numbers are used to create a dice roll
 
 
-def dice_roll(sides, dice):  # returns a list of rolled dice and the sum of that list
+def dice_roll(dice, sides, modifier):  # returns a list of rolled dice and the sum of that list
     rolled = []
     for _ in range(0, dice):
         rolled.append(randint(1, int(sides)))
-    return rolled, sum(rolled)  # returns a list of the rolled dice and the total of them
+    return rolled, sum(rolled) + int(modifier)  # returns a list of the rolled dice and the total of them
 
 
-dice = input("Please input dice to be rolled \n In format ?d? +/- ?")  # gets the dice that user wants to roll
+def get_values(dice):
+    global d_num, d_sides, m
+    d_loc = dice.find("d")  # this gets where the character d is in the string
+    d_num = int(dice[:d_loc])  # gets the number of dice
+    dice = dice[d_loc + 1:]  # removes the number of dice from the rest of the string
 
+    if dice.find("+") != -1:
+        m = dice[dice.find("+"):]
+        d_sides = dice[:dice.find("+")]
+    elif dice.find("-") != -1:
+        m = dice[dice.find("-"):]
+        d_sides = dice[:dice.find("-")]
+    else:
+        d_sides = int(dice)
+        m = 0
+
+
+while True:
+    dice = str(input(
+        "Please input dice to be rolled \n In format ?d? +/- ?")).strip().lower()  # gets the dice that user  wants to roll
+    get_values(dice)
+    print(dice_roll(d_num, d_sides, m), "\n\n")
