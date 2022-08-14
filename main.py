@@ -11,6 +11,8 @@ def dice_roll(dice, sides, modifier):  # returns a list of rolled dice and the s
 def get_values(dice):
     global d_num, d_sides, m
     d_loc = dice.find("d")  # this gets where the character d is in the string
+    if d_loc == -1:
+        raise ValueError("No d found")
     d_num = int(dice[:d_loc])  # gets the number of dice
     dice = dice[d_loc + 1:]  # removes the number of dice from the rest of the string
 
@@ -26,7 +28,12 @@ def get_values(dice):
 
 
 while True:
-    dice = str(input(
-        "Please input dice to be rolled \n In format ?d? +/- ?")).strip().lower()  # gets the dice that user  wants to roll
-    get_values(dice)
-    print(dice_roll(d_num, d_sides, m), "\n\n")
+    try:
+        dice = str(input(
+            "Please input dice to be rolled \n In format ?d? +/- ?")).strip().lower()  # gets the dice that user
+        # wants to roll
+        get_values(dice)
+        print(d_num, d_sides, m)
+        print(dice_roll(d_num, d_sides, m), "\n\n")
+    except ValueError:
+        print("Dice entered incorrectly")
